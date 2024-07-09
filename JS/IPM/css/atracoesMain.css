@@ -1,0 +1,67 @@
+
+body {
+    background-color: #045;
+    color: white;
+    font-style: coolvetica;
+}
+div, h1 {
+    text-align: center;
+}
+img {
+    width: 250px;
+    height: 250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8%;
+}
+#at1, #at2, #at3, #at4 {
+    font-size: larger;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    border-radius: 10%;
+    background-color:#0c72b1;
+}
+
+#at1 {
+    top: 73%;
+    left: 50%;
+    padding: 10px 89px;
+}
+
+#at2 {
+    top: 140%;
+    left: 50%;
+    padding: 10px 103px;
+}
+
+#at3 {
+    top: 208%;
+    left: 50%;
+    padding: 10px 87px;
+}
+
+#at4 {
+    top: 275%;
+    left: 50%;
+    padding: 10px 77px;
+}
+
+
+#conteiner{
+    background-color: #001;
+    width: 400px;
+    height: 400px;
+    border-radius: 10%;
+    position:fixed;
+    top:25%;
+    left: 25%;
+    overflow:hidden;
+    overflow-y: scroll;
+    scrollbar-width:none;
+}
+
+#conteiner::-webkit-scrollbar {
+  display: none;
+}

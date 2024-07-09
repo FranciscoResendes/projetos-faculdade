@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+
+
+<VBox fx:controller="pt.ul.fc.di.css.javafxexample.presentation.control.LoginController" xmlns:fx="http://javafx.com/fxml" spacing="10">
+    <Label text="Login" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+    <Label text="AlunoID" />
+    <TextField fx:id="userIdField" />
+    <Label text="Password" />
+    <PasswordField fx:id="passwordField" />
+    <Label fx:id="errorMessage" textFill="red" />
+    <Button text="Login" onAction="#handleLoginButtonAction" />
+</VBox>

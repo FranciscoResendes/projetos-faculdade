@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <h1>Alunos para atribuir tema</h1>
+    <ul>
+        <li th:each="aluno : ${alunos}">
+            <a th:href="@{/aluno/{id}(id=${aluno.getId()})}" th:text="${aluno.nome}"></a>
+        </li>
+    </ul>
+</body>
+</html>

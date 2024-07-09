@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <h1>Submeter Tema:</h1>
+    <nav><a th:href="@{/menu}">Menu</a></nav>
+    <form id="myForm" action="#" th:action="@{/submissaoTema}" th:object="${temaDTO}" method="post">
+
+        <label for="titulo">Titulo:</label><br>
+        <input th:field="*{titulo}" type="text" name="titulo"><br>
+
+        <label for="remuneracao">Remuneracao:</label><br>
+        <input th:field="*{remuneracao}" type="text" name="remuneracao"><br>
+
+        <label for="descricao">Descricao:</label><br>
+        <input th:field="*{descricao}" type="text" name="descricao"><br>
+
+        <label for="anoLetivo">Ano Letivo:</label><br>
+        <input th:field="*{anoLetivo}" type="text" name="anoLetivo"><br>
+
+        <label for="mestradosCompativeis">Mestrados Compativeis:</label><br>
+        <input th:field="*{mestradosCompativeis}" type="text" name="mestradosCompativeis"><br>
+
+        <label for="autorId">Numero Autor:</label><br>
+        <input th:field="*{autorId}" type="text" name="autorId"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>

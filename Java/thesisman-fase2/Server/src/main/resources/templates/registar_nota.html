@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body>
+    <h1>Registar Nota</h1>
+    <nav><a th:href="@{/menu}">Menu</a></nav>
+    <nav><a th:href="@{/marcacaoDefesa}">Marcar defesa</a></nav>
+    <br>
+    <form action="#" th:action="@{/registarNota}" method="post">
+        <label for="numAluno">Número do Aluno:</label><input name="numAluno"/><br/>
+        <label for="nota">Nota:</label><input name="nota"/><br />
+        <label for="defesaId">Defesa ID:</label><input name="defesaId"/><br/>
+        <input type="submit" value="Registar">
+    </form>
+</body>
+
+</html>

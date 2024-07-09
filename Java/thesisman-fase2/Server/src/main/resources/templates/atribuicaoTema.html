@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <h1>Alunos para atribuir tema</h1>
+    <h2 th:text="${aluno.nome}"></h2>
+    <ul>
+        <li th:each="tema : ${aluno.getTemas()}">
+            <span th:text="${tema.getTitulo()}"></span>
+        </li>
+    </ul>
+    <form th:action="@{/criarTese}" method="post">
+        <input type="hidden" th:value="${aluno.getId()}" name="alunoId"/>
+        <select name="temaId">
+            <option th:each="tema : ${aluno.getTemas()}" th:value="${tema.getId()}" th:text="${tema.getTitulo()}"></option>
+        </select>
+        <!-- Adicione campos de entrada para outros dados da Tese aqui, se necessário -->
+        <button type="submit">Criar Tese</button>
+    </form>
+</body>
+</html>

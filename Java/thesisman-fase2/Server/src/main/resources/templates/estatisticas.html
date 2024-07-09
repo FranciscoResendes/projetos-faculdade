@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body>
+    
+    <h1>Estatisticas</h1><br>
+    <div th:inline="text">
+        <h3>[[${statistics}]]% dos alunos passaram!</h3>
+    </div>
+    <br>
+    <h1>Menu</h1>
+    <nav><a th:href="@{/marcacaoDefesa}">Marcar defesa</a></nav>
+    <nav><a th:href="@{/registarNota}">Registar nota da defesa</a></nav>
+    <nav><a th:href="@{/estatisticas}">Ver estatísticas</a></nav>
+</body>
+
+</html>

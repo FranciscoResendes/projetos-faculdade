@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body>
+    <h1>Autenticação:</h1>
+    <nav><a th:href="@{/registar}">Registar utilizador Empresarial</a></nav>
+    <form action="#" th:action="@{/login}" method="post">
+        <label for="user">Número de utilizador:</label><br>
+        <input type="text" name="user"><br>
+        <label for="pass">Password:</label><br>
+        <input type="password" name="pass"><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+
+</html>

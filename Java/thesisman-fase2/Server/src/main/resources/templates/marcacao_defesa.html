@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<body>
+    <h1>Marcar Defesa</h1>
+    <nav><a th:href="@{/menu}">Menu</a></nav>
+    <nav><a th:href="@{/registarNota}">Registar nota da defesa</a></nav>
+    <br>
+    <form action="#" th:action="@{/marcacaoDefesa}" th:object="${defesa}" method="post">
+        <label for="alunoNum">Número do aluno:</label><input name="alunoNum"  /><br />
+        <label for="data">Data:</label><input name="data" th:field="*{data}" /><br />
+        <label for="juri1"> Número do juri - orientador interno:</label><input name="juri1" th:field="*{juriUm}" /><br />
+        <label for="juri2">Número do juri - arguente:</label><input name="juri2" th:field="*{juriDois}" /><br />
+        <label for="juri3">Número do juri - presidente:</label><input name="juri3" th:field="*{juriTres}" /><br />
+        <label for="final">É defesa final:</label><input name="final" th:field="*{isFinal}" /><br />
+        <label for="sala">Sala:</label><input name="sala" th:field="*{sala}" /><br />
+        <input type="submit" value="Marcar" />
+    </form>
+</body>
+
+</html>

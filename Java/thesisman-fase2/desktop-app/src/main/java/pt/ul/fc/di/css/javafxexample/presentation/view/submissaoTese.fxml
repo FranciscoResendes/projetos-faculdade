@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="pt.ul.fc.di.css.javafxexample.presentation.control.SubmissaoTeseController" alignment="CENTER">
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="submitProposalButton" text="Submissão do documento de proposta de tese" />
+        <Button fx:id="submitFinalDocumentButton" text="Submissão do documento final de tese" />
+        <Button fx:id="logoutButton" text="Logout" onAction="#handleLogoutButtonAction"/>
+    </HBox>
+</VBox>

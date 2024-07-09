@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="twgl.js-master/dist/5.x/twgl-full.js"></script>
+</head>
+<style> body {background-color: rgb(0, 0, 0)} </style>
+<body>
+
+  <title>Projeto</title>
+  <canvas id="c"></canvas>
+</body>
+<script id="vs" type="notjs">
+uniform mat4 u_worldViewProjection;
+uniform vec3 u_lightWorldPos;
+uniform mat4 u_world;
+uniform mat4 u_viewInverse;
+uniform mat4 u_worldInverseTranspose;
+
+attribute vec4 position;
+attribute vec3 normal;
+attribute vec2 texcoord;
+
+varying vec4 v_position;
+varying vec2 v_texCoord;
+varying vec3 v_normal;
+varying vec3 v_surfaceToLight;
+varying vec3 v_surfaceToView;
+
+void main() {
+  v_texCoord = texcoord;
+  v_position = u_worldViewProjection * position;
+  v_normal = (u_worldInverseTranspose * vec4(normal, 0)).xyz;
+  
+  // to complete
+  v_surfaceToLight = u_lightWorldPos - (u_world * position).xyz;
+  v_surfaceToView = (u_viewInverse[3] - (u_world * position)).xyz;
+  
+  gl_Position = v_position;
+}
+  </script>
+<script id="fs" type="notjs">
+precision mediump float;
+
+varying vec4 v_position;
+varying vec2 v_texCoord;
+varying vec3 v_normal;
+varying vec3 v_surfaceToLight;
+varying vec3 v_surfaceToView;
+
+uniform vec4 u_lightColor;
+uniform vec4 u_ambient;
+uniform sampler2D u_diffuse;
+uniform vec4 u_specular;
+uniform float u_shininess;
+uniform float u_specularFactor;
+
+vec4 lit(float l ,float h, float m) {
+  return vec4(1.0,
+              max(l, 0.0),
+              (l > 0.0) ? pow(max(0.0, h), m) : 0.0,
+              1.0);
+//   return vec4(ambient, diffuse, specular, 1.0);
+}
+
+void main() {
+  vec4 diffuseColor = texture2D(u_diffuse, v_texCoord);
+  vec3 a_normal = normalize(v_normal);
+  vec3 surfaceToLight = normalize(v_surfaceToLight);
+  vec3 surfaceToView = normalize(v_surfaceToView);
+  
+  // to complete
+  vec3 halfVector = normalize( surfaceToLight + surfaceToView );
+  
+  vec4 litR = lit(dot(a_normal, surfaceToLight),
+                    dot(a_normal, halfVector), u_shininess);
+  
+  vec4 outColor = vec4((
+    u_lightColor * (diffuseColor * litR.y + diffuseColor * u_ambient +
+                u_specular * litR.z * u_specularFactor)).rgb,
+      diffuseColor.a);
+  
+      gl_FragColor = outColor;
+}
+  </script>
+<script type="module">
+  const m4 = twgl.m4;
+  const gl = document.querySelector("canvas").getContext("webgl");
+  const programInfo = twgl.createProgramInfo(gl, ["vs", "fs"]);
+
+  const bufferInfo = twgl.primitives.createSphereBufferInfo(gl, 1,20,20);
+  const mercury = twgl.primitives.createSphereBufferInfo(gl, 0.15,20,20);
+  const venus = twgl.primitives.createSphereBufferInfo(gl, 0.3,20,20);
+  const earth = twgl.primitives.createSphereBufferInfo(gl, 0.3, 20, 20);
+  const mars = twgl.primitives.createSphereBufferInfo(gl, 0.2, 20, 20);
+  const moon = twgl.primitives.createSphereBufferInfo(gl, 0.08, 20, 20);
+  const saturn = twgl.primitives.createSphereBufferInfo(gl, 0.6,20,20);
+  const ring  = twgl.primitives.createDiscBufferInfo(gl, 1.5,100,1,0.8);
+
+  const orbit1  = twgl.primitives.createTorusBufferInfo(gl, 2.25,0.008,100,100);
+  const orbit2  = twgl.primitives.createTorusBufferInfo(gl, 2.8,0.008,100,100);
+  const orbit3  = twgl.primitives.createTorusBufferInfo(gl, 3.6,0.008,100,100);
+  const orbit4  = twgl.primitives.createTorusBufferInfo(gl, 4.5,0.008,100,100);
+  const orbit5  = twgl.primitives.createTorusBufferInfo(gl, 6.5,0.008,100,100);
+
+  var tex8_5 = twgl.createTexture(gl, { src: 'ring.jpg' });
+  var tex8 = twgl.createTexture(gl, { src: 'saturn.jpg' });
+  var tex6 = twgl.createTexture(gl, { src: 'moon.jpg' });
+  var tex5 = twgl.createTexture(gl, { src: 'mars.png' });
+  var tex4 = twgl.createTexture(gl, { src: 'earth.jpg' });
+  var tex3 = twgl.createTexture(gl, { src: 'venus.jpg' });
+  var tex2 = twgl.createTexture(gl, { src: 'mercury.jpg' });
+  var tex = twgl.createTexture(gl, { src: 'sun.jpg' });
+
+
+  var eye = [0, 3, 15];
+  var target = [0, 0, 0];
+  var up = [0, 1, 0];
+  var camera = m4.lookAt(eye, target, up);
+
+  var digitOne = false;
+  var digitTwo = false;
+  var toggleOrbits = false;
+  document.addEventListener("keydown", (event) => {
+        digitOne = false;
+        digitTwo = false;
+        eye[1] = 3;
+        eye[2] = 15;
+        console.log(event.code);
+        if (event.code == 'Digit1'){ 
+            digitOne = true;
+        }
+        if (event.code == 'Digit2'){ 
+            digitTwo = true;
+
+        }
+        if (event.code == 'ArrowUp'){
+            target[1] -= 1;
+
+            eye = [0, 0, 10];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        }
+        if (event.code == 'ArrowDown'){
+            target[1] += 1;
+
+            eye = [0, 0, 10];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        }
+        if (event.code == 'ArrowLeft'){
+            target[0] -= 1;
+
+            eye = [0, 0, 10];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        }
+        if (event.code == 'ArrowRight'){
+            target[0] += 1;
+
+            eye = [0, 0, 10];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        }
+        if (event.code == 'KeyO'){
+            if (toggleOrbits){
+              toggleOrbits = false;
+            }
+            else {
+              toggleOrbits = true;
+            }
+        }
+
+    });
+    document.addEventListener("wheel", (event) => {
+        var delta = Math.sign(event.deltaY);
+        if (delta == -1){
+            eye[2] -= 1;
+
+            target = [0, 0, 0];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        }
+        if (delta == 1){
+            eye[2] += 1;
+
+            target = [0, 0, 0];
+            up = [0, 1, 0];
+            camera = m4.lookAt(eye, target, up);
+        } 
+    });
+
+  // luz do sol
+  var uniforms1 = {
+    u_lightWorldPos: [1, 8, -10],
+    u_lightColor: [1, 0.8, 0.8, 1],
+    u_ambient: [1, 1, 1, 1],
+    u_specular: [1, 1, 1, 1],
+    u_shininess: 50,
+    u_specularFactor: 0,
+    u_diffuse: tex,
+  };
+
+  //luz dos planetas
+  var uniforms = {
+    u_lightWorldPos: [0, 0, 0],
+    u_lightColor: [1, 0.8, 0.8, 1],
+    u_ambient: [0.3, 0.3, 0.3, 1],
+    u_specular: [1, 1, 1, 1],
+    u_shininess: 10,
+    u_specularFactor: 10,
+    u_diffuse: tex,
+  };
+
+  function render(time) {
+    
+    twgl.resizeCanvasToDisplaySize(gl.canvas);
+    gl.canvas.width = 1730;
+    gl.canvas.height = 840;
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    const fov = 30 * Math.PI / 180;
+    const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+    const zNear = 0.1;
+    const zFar = 100;
+    const projection = m4.perspective(fov, aspect, zNear, zFar);
+
+    var view = m4.inverse(camera);
+    if (digitOne){
+      view = m4.inverse(m4.multiply(m4.rotationY(5*time*0.0001), m4.translation([2.15,0,4.3])));
+      //digitOne = false;
+    }
+    else if(digitTwo){
+      
+      eye = [0, 0, 5];
+      target = [0, 0, 0];
+      up = [0, 1, 0];
+      camera = m4.lookAt(eye, target, up);
+      view = m4.inverse(camera);
+      //digitTwo = false;
+    }
+    else{
+
+      view = m4.inverse(camera);
+    }
+    //const view = m4.inverse(m4.multiply(m4.rotationY(5*time*0.0001), m4.translation([2.15,0,4.3])));// camera para voltar ao normal
+    
+    const viewProjection = m4.multiply(projection, view);
+
+    //w1
+    var world = m4.rotationY(time*0.003);
+    uniforms.u_viewInverse = camera;
+    uniforms1.u_viewInverse = camera;
+    uniforms1.u_world = world;
+    uniforms1.u_worldInverseTranspose = m4.transpose(m4.inverse(world));
+    uniforms1.u_worldViewProjection = m4.multiply(viewProjection, world);
+    uniforms1.u_diffuse = tex;
+    
+    gl.useProgram(programInfo.program);
+    twgl.setBuffersAndAttributes(gl, programInfo, bufferInfo);
+    twgl.setUniforms(programInfo, uniforms1);
+    twgl.drawBufferInfo(gl, bufferInfo);
+
+
+    //w2
+    var world2 = m4.multiply(m4.rotationY(5*time*0.0002), m4.translation([2,0,1]));
+    world2 = m4.multiply(world2, m4.rotationY(5*time*0.0002));
+    uniforms.u_world = world2;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(world2));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, world2);
+    uniforms.u_diffuse = tex2;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo, mercury);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, mercury);
+
+    //w3
+    var world3 = m4.multiply(m4.rotationY(5*time*0.0003), m4.translation([2,0,2]));
+    world3 = m4.multiply(world3, m4.rotationY(5*time*0.0003));
+
+    uniforms.u_world = world3;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(world3));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, world3);
+    uniforms.u_diffuse = tex3;
+    
+
+    twgl.setBuffersAndAttributes(gl, programInfo, venus);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, venus);
+  
+    //w4
+    var world4 = m4.multiply(m4.rotationY(5*time*0.0001), m4.translation([2,0,3]));
+    world4 = m4.multiply(world4,m4.rotationY(5*time*0.00035));
+
+    uniforms.u_world = world4;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(world4));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, world4);
+    uniforms.u_diffuse = tex4;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo, earth);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, earth);
+
+    //w5
+    var world5 =  m4.translation([5.5 * Math.sin(time *0.002),0,4.5 * Math.cos(time * 0.002)]); //orbita em elipse (Marte)
+    world5 = m4.multiply(world5, m4.rotationY(5*time*0.0004));
+
+    uniforms.u_world = world5;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(world5));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, world5);
+    uniforms.u_diffuse = tex5;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo, mars);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, mars);
+
+    //m4
+    //var moon6 = m4.multiply(world4,m4.translation([0,0,0.5]), m4.rotationY(5*time*0.001)); antiga lua
+    //moon6 = m4.multiply(moon6, m4.rotationY(5*time*0.3));
+
+    var w4 = m4.multiply( m4.axisRotation([0,2,0], 5*time*0.0001), m4.translation([2,0,3])); //matriz da 
+    w4 = m4.multiply(w4,m4.axisRotation([1,2,0], 5*time*0.0005));
+    var ww = m4.multiply( w4,m4.translation([0,0,0.5]));
+    var moon6 =  m4.multiply(ww, m4.rotationY(5*time*0.0003)); 
+
+    uniforms.u_world = moon6;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(moon6));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, moon6);
+    uniforms.u_diffuse = tex6;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo, moon);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, moon);
+
+    //w7
+    var world7 = m4.multiply(m4.rotationY(5*time*0.0005), m4.translation([2,0,6]));
+    world7 = m4.multiply(world7, m4.rotationY(5*time*0.0005));
+
+    uniforms.u_world = world7;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(world7));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, world7);
+    uniforms.u_diffuse = tex8;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo,saturn);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, saturn);
+
+    //d7
+    var disc1 = m4.multiply(m4.rotationY(5*time*0.0005), m4.translation([2,0,6]));
+    m4.rotateX(disc1,-0.3,disc1);
+    //disc1 = m4.multiply(disc1, m4.rotationY(5*time*0.3));
+    //m4.rotateX(disc1,10,disc1);
+    
+    uniforms.u_world = disc1;
+    uniforms.u_worldInverseTranspose = m4.transpose(m4.inverse(disc1));
+    uniforms.u_worldViewProjection = m4.multiply(viewProjection, disc1);
+    uniforms.u_diffuse = tex8_5;
+    
+    twgl.setBuffersAndAttributes(gl, programInfo, ring);
+    twgl.setUniforms(programInfo, uniforms);
+    twgl.drawBufferInfo(gl, ring);
+//-----------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------- ORBITS ----------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------
+    if(toggleOrbits){
+      //o1 
+      var o1 = m4.translation([0,-0.01,0]);
+      
+      uniforms1.u_world = o1;
+      uniforms1.u_worldInverseTranspose = m4.transpose(m4.inverse(o1));
+      uniforms1.u_worldViewProjection = m4.multiply(viewProjection, o1);
+      uniforms1.u_diffuse = twgl.createTexture(gl, {
+          min: gl.NEAREST,
+          mag: gl.NEAREST,
+          src: [
+            255, 255, 255, 255,
+            255, 255, 255, 255,
+          ],
+        });
+      
+      twgl.setBuffersAndAttributes(gl, programInfo, orbit1);
+      twgl.setUniforms(programInfo, uniforms1);
+      twgl.drawBufferInfo(gl, orbit1);
+
+      //o2
+      twgl.setBuffersAndAttributes(gl, programInfo, orbit2);
+      twgl.setUniforms(programInfo, uniforms1);
+      twgl.drawBufferInfo(gl, orbit2);
+
+      //o3
+      twgl.setBuffersAndAttributes(gl, programInfo, orbit3);
+      twgl.setUniforms(programInfo, uniforms1);
+      twgl.drawBufferInfo(gl, orbit3);
+
+      //o4
+      twgl.setBuffersAndAttributes(gl, programInfo, orbit4);
+      twgl.setUniforms(programInfo, uniforms1);
+      twgl.drawBufferInfo(gl, orbit4);
+
+      //o5
+      twgl.setBuffersAndAttributes(gl, programInfo, orbit5);
+      twgl.setUniforms(programInfo, uniforms1);
+      twgl.drawBufferInfo(gl, orbit5);
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+</script>
+
+</html>
