@@ -1,0 +1,13 @@
+<h2>Add new website</h2>
+
+<div class="center-content">
+    <input [(ngModel)]="url" placeholder="Insert website URL">
+    <strong id="errorSite" *ngIf="invalidWebsite">Invalid website</strong>
+    <button (click)="addWebsite(url)">Add Website</button>
+</div>
+
+
+
+
+
+

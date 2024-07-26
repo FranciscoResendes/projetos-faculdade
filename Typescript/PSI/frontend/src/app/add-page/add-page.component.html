@@ -1,0 +1,10 @@
+<h2>Add page to Website: <span>{{currentWebsite?.url}}</span></h2>
+
+<div class="center-content">
+    <input [(ngModel)]="pageUrl" placeholder="Insert page URL">
+    <strong id="errorSite" *ngIf="pageInvalid">Invalid page</strong>
+    <div class="buttons">
+        <button (click)="goBack()">Go back</button>
+        <button (click)="addPage(pageUrl)">Add Page</button>
+    </div>
+</div>

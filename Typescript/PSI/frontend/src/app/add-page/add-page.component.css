@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFAFA;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h2 {
+    color: #6200EE;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.center-content {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.center-content input {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.center-content input:focus {
+    border-color: #6200EE;
+    outline: none;
+}
+
+.center-content #errorSite {
+    color: #D32F2F;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+}
+
+.buttons button {
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    background-color: #6200EE;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 5px;
+}
+
+.buttons button:hover {
+    background-color: #3700B3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:focus {
+    outline: none;
+    background-color: #3700B3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

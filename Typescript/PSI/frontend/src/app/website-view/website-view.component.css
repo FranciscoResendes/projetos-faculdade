@@ -1,0 +1,99 @@
+/* styles-page3.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFAFA;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.center-content {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+strong {
+    color: #6200EE;
+    display: block;
+    margin-bottom: 10px;
+}
+
+select {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+select:focus {
+    border-color: #6200EE;
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+th {
+    background-color: #F5F5F5;
+}
+
+th button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    color: #6200EE;
+    font-size: 16px;
+}
+
+tr:nth-child(even) {
+    background-color: #F9F9F9;
+}
+
+tr:hover {
+    background-color: #E0E0E0;
+}
+
+button {
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+    background-color: #6200EE;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #3700B3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:focus {
+    outline: none;
+    background-color: #3700B3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

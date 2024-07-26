@@ -1,0 +1,56 @@
+
+
+<div class= center-content>
+    <h2>Website Details</h2>
+    <p>URL: {{showPath(website.url)}}</p>
+    <p>Registration Date: {{showTime(website.submissionDate)}}</p>
+    <p>Last Appraisal Date: {{showTime(website.appraisalDate)}}</p>
+    
+    <div *ngIf="(websiteStatus | async) === 'Avaliado'"> 
+        <h3>Accessibility Indicators</h3>
+        <p>Total pages without accessibility errors: {{percentSemErros}}% ({{numDePaginasSemErros}} pages)</p>
+        <p>Total pages with at least one accessibility error: {{percentComErros}}% ({{numDePaginasComErros}} pages)</p>
+        <p>Total pages with at least one level A accessibility error: {{percentComErrosA}}% ({{numDePaginasComErrosA}} pages)</p>
+        <p>Total pages with at least one level AA accessibility error: {{percentComErrosAA}}% ({{numDePaginasComErrosAA}} pages)</p>
+        <p>Total pages with at least one level AAA accessibility error: {{percentComErrosAAA}}% ({{numDePaginasComErrosAAA}} pages)</p>
+        <h3>Top 10 most common accessibility errors</h3>
+        <ul>
+        <li *ngFor="let error of top10Errors">{{error[0]}}</li>
+        </ul>
+    </div> 
+    <div *ngIf="(websiteStatus | async) !== 'Avaliado'">
+        <h3>Ainda não tem paginas avaliadas</h3>
+        <p>Website Status: {{websiteStatus | async}}</p>
+    </div>
+    <h3>Monitored Pages</h3>
+    <table>
+        <thead>
+            <tr>
+                <th id="remove"><input type="checkbox" (click)="checkAll(this.cboxCheck)">Remove</th>
+                <th>URL</th>
+                <th>Conformity</th>
+                <th>Last Appraisal Date</th>
+                <th>Status</th>
+                <th>Select</th>
+                <th>Statistics Details</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="rowDel" *ngFor="let page of showPages()">
+                <td id ="remove"><input type="checkbox" class="cbox"></td>
+                <td>{{page.url}}</td>
+                <td>{{page.conformity}}</td>
+                <td>{{showTime(page.appraisalDate)}}</td>
+                <td>{{page.status}}</td>
+                <td><input type="checkbox" [(ngModel)]="page.selected"></td>
+                <td *ngIf="page.status === 'Avaliado'"><button [routerLink]="['/detail-statistics', website._id, page._id]">Statistics Details</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button (click)="evaluateSelectedPages()">Evaluate Selected Pages</button>
+    <button (click)="DeleteAllPages()">Delete Pages</button>
+    <button (click)="generateAccessibilityReport('PDF')">Create PDF Report</button>
+    <button (click)="generateAccessibilityReport('HTML')">Create HTML Report</button>
+</div>
+

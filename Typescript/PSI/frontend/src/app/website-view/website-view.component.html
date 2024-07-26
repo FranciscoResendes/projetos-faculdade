@@ -1,0 +1,39 @@
+<div >
+    <div class="center-content">
+        <strong>Status filter</strong>
+        <select name="status filter" (change)="activateFilter($event)" >
+            <option value="Nenhum">Nenhum</option>
+            <option value="Por avaliar">Por avaliar</option>
+            <option value="Em avaliação">Em avaliação</option>
+            <option value="Avaliado">Avaliado</option>
+            <option value="Erro na avaliação">Erro na avaliação</option>
+        </select>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox"  (click)="checkAll(this.cboxCheck)">Remove</th>
+                    <th>Website</th>
+                    <th>Status</th>
+                    <th (click)="sortSub(submissionOrder)" (click)="changeArrowSub(this.arrowSub)"><button [innerHTML]="this.arrowSub"></button>Submission date</th>
+                    <th (click)="sortAppr(appraisalOrder)" (click)="changeArrowAppr(this.arrowAppr)"><button [innerHTML]="this.arrowAppr"></button> Last appraisal date</th>
+                    <th>Add pages</th>
+                    <th>Check details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="rowDel" *ngFor="let website of filterStatus(filter)">
+                    <td><input type="checkbox" class="cbox"></td>
+                    <td>{{website.url}}</td>
+                    <td>{{website.status}}</td>
+                    <td>{{showTime(website.submissionDate)}}</td>
+                    <td>{{showTime(website.appraisalDate)}}</td>
+                    <td (click)="goToPage(website)"><button>Add pages</button></td>
+                    <td (click)="goToDetails(website)"><button>Check details</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button  (click)="DeleteAllWebsites()">Delete</button>
+    </div>
+</div>

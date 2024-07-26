@@ -1,0 +1,65 @@
+<div class="center-content">
+    <h2>Pagina: {{page.url}}</h2>
+    <div id="filter-container">
+      <div id="outcome">
+        <h3>Outcome</h3>
+        <input type="checkbox" name="Passed" (click)="filterTests('passed')" checked>
+        <label for="Passed">Passed</label><br>
+        <input type="checkbox" name="Failed" (click)="filterTests('failed')" checked>
+        <label for="Failed">Failed</label><br>
+        <input type="checkbox" name="Warning" (click)="filterTests('warning')" checked>
+        <label for="Warning">Warning</label><br>
+        <input type="checkbox" name="Not applicable" (click)="filterTests('not applicable')">
+        <label for="Not applicable">Not applicable</label>
+      </div>
+
+      <div id="rules">
+        <h3>Rules</h3>
+        <input type="checkbox" ng-checked="all" name="CWAG rules" (click)="filterTests('cwagFiltered')" checked>
+        <label for="CWAG rules">CWAG rules</label><br>
+        <input type="checkbox" ng-checked="all" name="Act rules" (click)="filterTests('actFiltered')" checked>
+        <label for="Act rules">Act rules</label>
+      </div>
+
+      <div id="level">
+        <h3>Level</h3>
+        <input type="checkbox" name="AAA" (click)="filterTests('levelaaa')" checked>
+        <label for="AAA">AAA</label><br>
+        <input type="checkbox" name="AA" (click)="filterTests('levelaa')" checked>
+        <label for="AA">AA</label><br>
+        <input type="checkbox" name="A" (click)="filterTests('levela')"checked>
+        <label for="A">A</label>
+      </div>
+    </div>
+
+    <div class="test-results">
+      <p>Total tests passed: {{totalPassedTests}} ({{passedTestsPercentage.toFixed(2)}}%)</p>
+      <p>Total tests with warning: {{totalWarningTests}} ({{warningTestsPercentage.toFixed(2)}}%)</p>
+      <p>Total tests failed: {{totalFailedTests}} ({{failedTestsPercentage.toFixed(2)}}%)</p>
+      <p>Total tests not applicable: {{totalInapplicableTest}} ({{inapplicableTestsPercentage.toFixed(2)}}%)</p>
+    </div>
+
+    <div *ngIf="this.actFiltered">
+      <div *ngFor="let result of filterRest(actRulesTestsResults)" class="result-card">
+          <h4>{{result.name}}</h4>
+          <p>
+              <strong>Code:</strong> {{result.code}}<br>
+              <strong>Description:</strong> {{result.description}}<br>
+              <strong>Outcome:</strong> {{result.outcome}}<br>
+              <strong>Success Criteria:</strong> {{result.successCriteria}}
+          </p>
+      </div>
+    </div>
+
+    <div *ngIf="this.cwagFiltered">
+      <div *ngFor="let result of filterRest(wcagTestsResults)" class="result-card">
+          <h4>{{result.name}}</h4>
+          <p>
+              <strong>Code:</strong> {{result.code}}<br>
+              <strong>Description:</strong> {{result.description}}<br>
+              <strong>Outcome:</strong> {{result.outcome}}<br>
+              <strong>Success Criteria:</strong> {{result.successCriteria}}
+          </p>
+      </div>
+    </div>
+</div>

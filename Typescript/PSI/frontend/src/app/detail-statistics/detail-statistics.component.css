@@ -1,0 +1,82 @@
+/* styles-page5.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFAFA;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    /* Center all text in the body */
+}
+
+.center-content {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    /* Center all text in the center-content div */
+}
+
+h2,
+h3 {
+    color: #6200EE;
+    margin-bottom: 20px;
+}
+
+#filter-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    text-align: center;
+    /* Center all text in the filter container */
+}
+
+#filter-container div {
+    background-color: #F5F5F5;
+    padding: 10px;
+    border-radius: 4px;
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+    /* Center all text in the filter container divs */
+}
+
+#filter-container h3 {
+    margin-top: 0;
+}
+
+#filter-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.test-results p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.result-card {
+    background-color: #F9F9F9;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    /* Center all text in result-card divs */
+}
+
+.result-card h4 {
+    color: #6200EE;
+    margin-top: 0;
+}
+
+.result-card p {
+    margin: 10px 0;
+}
+
+.result-card p strong {
+    color: #333;
+}
